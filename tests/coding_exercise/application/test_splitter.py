@@ -105,10 +105,11 @@ def test_returned_cable_names_have_single_digit_suffix_when_less_than_ten():
 
 def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_hundred():
     input_name = "bananas"
-    cables = Splitter().split(Cable(12, input_name), 9)
+    cables = Splitter().split(Cable(256, input_name), 16)
 
+    assert_that(len(cables)).is_equal_to(18)
     assert_that(cables[0].name).is_equal_to(input_name + "-00")
-    assert_that(cables[-1].name).is_equal_to(input_name + "-11")
+    assert_that(cables[-1].name).is_equal_to(input_name + "-17")
 
 def test_returned_cable_names_have_three_digit_suffix_when_between_one_hundred_and_a_thousand():
     input_name = "oranges"

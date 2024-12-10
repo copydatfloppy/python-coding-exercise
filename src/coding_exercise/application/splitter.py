@@ -21,14 +21,25 @@ class Splitter:
         self.input_cable = cable
         self.__validate()
 
+        output_array = []
+
         # Calculate highest integer equal split lengths and remainder
         self.__determine_split_segment_length_and_count()
 
+        # Padding width for output Cable(s)
+        pad_width = len(str(self.total_segments))
+
         # Loop for self.equal_segments, create Cable of self.equal_length length
+        for i in range(self.equal_segments):
+            cable_name = self.input_cable.name + "-" + str(i).rjust(pad_width, "0")
+            output_array.append(Cable(self.equal_length, cable_name))
 
         # If self.remainder, append Cable of self.remainder length
+        if self.remainder:
+            cable_name = self.input_cable.name + "-" + str(self.total_segments - 1).rjust(pad_width, "0")
+            output_array.append(Cable(self.remainder, cable_name))
 
-        return []
+        return output_array
 
     def __validate_times_input(self):
         # Check self.times value is an integer in range
@@ -63,3 +74,4 @@ class Splitter:
             self.remainder = final_remainder
         else:
             self.total_segments = self.equal_segments
+            self.remainder = 0
