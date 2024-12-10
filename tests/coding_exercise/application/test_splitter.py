@@ -45,6 +45,10 @@ def test_should_raise_error_when_provided_cable_has_length_greater_than_maximum(
     assert_that(Splitter().split).raises(ValueError).when_called_with(Cable(2048, "coconuts"), 1)
 
 
+def test_should_raise_error_when_resulting_cable_lengths_would_be_less_than_one():
+    assert_that(Splitter().split).raises(ValueError).when_called_with(Cable(2, "coconuts"), 3)
+
+
 # Test resulting array of cables for count and cable length
 def test_should_split_cable_length_of_ten_to_two_cables_of_five():
     cables = Splitter().split(Cable(10, "coconuts"), 1)
@@ -70,7 +74,6 @@ def test_should_split_cable_legth_of_ten_three_times_to_five_cables_with_length_
     assert_that(cables[-1].length).is_equal_to(2)
 
 # Test remainder Cable length
-# TODO Double check required functionality
 def test_should_split_cable_legth_of_ten_two_times_to_four_cables_including_remainder():
     cables = Splitter().split(Cable(10, "coconuts"), 2)
 
@@ -84,3 +87,25 @@ def test_should_split_cable_of_seventy_three_times_to_five_cables_including_rema
     assert_that(len(cables)).is_equal_to(5)
     assert_that(cables[0].length).is_equal_to(17)
     assert_that(cables[-1].length).is_equal_to(2)
+
+def test_should_split_remainder_into_initial_split_length_if_possible():
+    cables = Splitter().split(Cable(12, "coconuts"), 10)
+
+    assert_that(len(cables)).is_equal_to(12)
+    assert_that(cables[0].length).is_equal_to(1)
+    assert_that(cables[-1].length).is_equal_to(1)
+
+# Test returned Cable names are formatted to requirements
+def test_returned_cable_names_have_single_digit_suffix_when_less_than_ten():
+    input_name = "coconuts"
+    cables = Splitter().split(Cable(5, input_name), 2)
+
+    assert_that(cables[0].name).is_equal_to(input_name + "-0")
+    assert_that(cables[-1].name).is_equal_to(input_name + "-4")
+
+def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_hundred():
+    input_name = "bananas"
+    cables = Splitter().split(Cable(12, input_name), 10)
+
+    assert_that(cables[0].name).is_equal_to(input_name + "-00")
+    assert_that(cables[-1].name).is_equal_to(input_name + "-11")
