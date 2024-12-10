@@ -26,18 +26,17 @@ class Splitter:
         # Calculate highest integer equal split lengths and remainder
         self.__determine_split_segment_length_and_count()
 
-        # Padding width for output Cable(s)
-        pad_width = len(str(self.total_segments))
-
         # Loop for self.equal_segments, create Cable of self.equal_length length
         for i in range(self.equal_segments):
-            cable_name = self.input_cable.name + "-" + str(i).rjust(pad_width, "0")
-            output_array.append(Cable(self.equal_length, cable_name))
+            output_array.append(Cable(
+                self.equal_length,
+                self.__format_cable_name(self.input_cable.name, i)))
 
         # If self.remainder, append Cable of self.remainder length
         if self.remainder:
-            cable_name = self.input_cable.name + "-" + str(self.total_segments - 1).rjust(pad_width, "0")
-            output_array.append(Cable(self.remainder, cable_name))
+            output_array.append(Cable(
+                self.remainder,
+                self.__format_cable_name(self.input_cable.name, self.total_segments - 1)))
 
         return output_array
 
@@ -60,18 +59,21 @@ class Splitter:
     def __determine_split_segment_length_and_count(self):
         # Find highest integer segment length and remainder
         inital_segments = self.times + 1
-        split_length, remainder_length = divmod(self.input_cable.length, inital_segments)
+        self.equal_length, remainder_length = divmod(self.input_cable.length, inital_segments)
 
         # If remainder, check if we can create extra equal segments
-        extra_segments, final_remainder = divmod(remainder_length, split_length)
+        extra_segments, self.remainder = divmod(remainder_length, self.equal_length)
 
         # Determine final segment count and equal segment length
-        self.equal_length = split_length
         self.equal_segments = inital_segments + extra_segments
 
-        if (final_remainder):
+        if (self.remainder):
             self.total_segments = self.equal_segments + 1
-            self.remainder = final_remainder
         else:
             self.total_segments = self.equal_segments
-            self.remainder = 0
+
+    def __format_cable_name(self, name: str, index: int):
+        # Format return Cable name with right padded suffix
+        pad_width = len(str(self.total_segments))
+
+        return name + "-" + str(index).rjust(pad_width, "0")
