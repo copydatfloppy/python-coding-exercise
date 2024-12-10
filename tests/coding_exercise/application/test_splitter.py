@@ -109,3 +109,11 @@ def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_
 
     assert_that(cables[0].name).is_equal_to(input_name + "-00")
     assert_that(cables[-1].name).is_equal_to(input_name + "-11")
+
+def test_returned_cable_names_have_three_digit_suffix_when_between_one_hundred_and_a_thousand():
+    input_name = "oranges"
+    cables = Splitter().split(Cable(129, input_name), 64)
+
+    assert_that(len(cables)).is_equal_to(129)
+    assert_that(cables[0].name).is_equal_to(input_name + "-000")
+    assert_that(cables[-1].name).is_equal_to(input_name + "-128")
