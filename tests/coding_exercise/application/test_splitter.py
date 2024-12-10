@@ -73,6 +73,7 @@ def test_should_split_cable_legth_of_ten_three_times_to_five_cables_with_length_
     assert_that(cables[0].length).is_equal_to(2)
     assert_that(cables[-1].length).is_equal_to(2)
 
+
 # Test remainder Cable length
 def test_should_split_cable_legth_of_ten_two_times_to_four_cables_including_remainder():
     cables = Splitter().split(Cable(10, "coconuts"), 2)
@@ -81,6 +82,7 @@ def test_should_split_cable_legth_of_ten_two_times_to_four_cables_including_rema
     assert_that(cables[0].length).is_equal_to(3)
     assert_that(cables[-1].length).is_equal_to(1)
 
+
 def test_should_split_cable_of_seventy_three_times_to_five_cables_including_remainder():
     cables = Splitter().split(Cable(70, "coconuts"), 3)
 
@@ -88,12 +90,14 @@ def test_should_split_cable_of_seventy_three_times_to_five_cables_including_rema
     assert_that(cables[0].length).is_equal_to(17)
     assert_that(cables[-1].length).is_equal_to(2)
 
+
 def test_should_split_remainder_into_initial_split_length_if_possible():
     cables = Splitter().split(Cable(12, "coconuts"), 9)
 
     assert_that(len(cables)).is_equal_to(12)
     assert_that(cables[0].length).is_equal_to(1)
     assert_that(cables[-1].length).is_equal_to(1)
+
 
 # Test returned Cable names are formatted to requirements
 def test_returned_cable_names_have_single_digit_suffix_when_less_than_ten():
@@ -103,6 +107,7 @@ def test_returned_cable_names_have_single_digit_suffix_when_less_than_ten():
     assert_that(cables[0].name).is_equal_to(input_name + "-0")
     assert_that(cables[-1].name).is_equal_to(input_name + "-4")
 
+
 def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_hundred():
     input_name = "bananas"
     cables = Splitter().split(Cable(256, input_name), 16)
@@ -110,6 +115,7 @@ def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_
     assert_that(len(cables)).is_equal_to(18)
     assert_that(cables[0].name).is_equal_to(input_name + "-00")
     assert_that(cables[-1].name).is_equal_to(input_name + "-17")
+
 
 def test_returned_cable_names_have_three_digit_suffix_when_between_one_hundred_and_a_thousand():
     input_name = "oranges"
