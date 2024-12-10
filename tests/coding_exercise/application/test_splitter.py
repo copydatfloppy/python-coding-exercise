@@ -89,7 +89,7 @@ def test_should_split_cable_of_seventy_three_times_to_five_cables_including_rema
     assert_that(cables[-1].length).is_equal_to(2)
 
 def test_should_split_remainder_into_initial_split_length_if_possible():
-    cables = Splitter().split(Cable(12, "coconuts"), 10)
+    cables = Splitter().split(Cable(12, "coconuts"), 9)
 
     assert_that(len(cables)).is_equal_to(12)
     assert_that(cables[0].length).is_equal_to(1)
@@ -105,7 +105,7 @@ def test_returned_cable_names_have_single_digit_suffix_when_less_than_ten():
 
 def test_returned_cable_names_have_double_digit_suffix_when_between_ten_and_one_hundred():
     input_name = "bananas"
-    cables = Splitter().split(Cable(12, input_name), 10)
+    cables = Splitter().split(Cable(12, input_name), 9)
 
     assert_that(cables[0].name).is_equal_to(input_name + "-00")
     assert_that(cables[-1].name).is_equal_to(input_name + "-11")
